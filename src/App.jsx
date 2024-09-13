@@ -12,7 +12,7 @@ function App() {
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="library" element={<BookList />} />
-        <Route path="book/:id" element={<BookDetail />} />
+        <Route path="ebook/" element={<BookDetail />} />
         <Route path="profile" element={<Profile />} />
         <Route path="*" element={<Missing />} />
       </Route>

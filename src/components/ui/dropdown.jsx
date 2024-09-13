@@ -2,25 +2,34 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { motion } from 'framer-motion'
-import { useState, useEffect } from 'react';
 
-export default function DropDown({ setFilteredEBooks, filteredEBooks, ebooks, favoriteEBooks }) {
-
-    const [isAllEBook, setIsAllEBook] = useState(false);
-    const [isBookmark, setIsBookmark] = useState(false);
-
-    useEffect(() => {
-        console.log(isAllEBook);
-        if (isBookmark) {
-            setIsBookmark(false);
-            setFilteredEBooks(favoriteEBooks);
-            console.log(filteredEBooks);
-        } else if (isAllEBook) {
-            setIsAllEBook(false);
-            setFilteredEBooks(ebooks);
-            console.log(favoriteEBooks);
+export default function DropDown({ setIsAllEBook, setIsBookmark, favoriteEBooks, filteredEBooks, setMessage }) {
+    const handleAllEBookClick = () => {
+        setIsAllEBook(true);
+        setIsBookmark(false);
+        if (filteredEBooks.length > 0) {
+            setMessage("");
+        } else {
+            setMessage("Oops... We couldn't find the book you were looking for!");
         }
-    }, [isBookmark, isAllEBook, setFilteredEBooks, favoriteEBooks, filteredEBooks, ebooks]);
+
+        console.log(favoriteEBooks);
+        console.log(filteredEBooks);
+
+    };
+
+    const handleBookmarkClick = () => {
+        setIsBookmark(true);
+        setIsAllEBook(false);
+        if (favoriteEBooks.length > 0) {
+            setMessage("");
+        } else {
+            setMessage("Oops... You haven't bookmarked any books yet!");
+        }
+
+        console.log(favoriteEBooks);
+        console.log(filteredEBooks);
+    };
 
     return (
         <motion.div
@@ -51,14 +60,14 @@ export default function DropDown({ setFilteredEBooks, filteredEBooks, ebooks, fa
                 >
                     <div className="py-1">
                         <MenuItem>
-                            <span onClick={() => setIsAllEBook(true)} className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900">
+                            <span onClick={() => handleAllEBookClick()} className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900">
                                 All E-Books
                             </span>
                         </MenuItem>
                     </div>
                     <div className="py-1">
                         <MenuItem>
-                            <span onClick={() => setIsBookmark(true)} className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900">
+                            <span onClick={() => handleBookmarkClick()} className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900">
                                 Bookmark
                             </span>
                         </MenuItem>

@@ -23,7 +23,7 @@ const Section = ({
         ease: [0.4, 0.0, 0.2, 1],
       }}
       className={cn(
-        "py-10 h-full flex flex-col lg:border-r relative group/feature",
+        "w-full py-10 h-full flex flex-col lg:border-r relative group/feature",
         (index === 0 || index === 4) && "lg:border-l",
         index < 4 && "lg:border-b"
       )}>
@@ -48,7 +48,7 @@ const Section = ({
         </span>
       </div>
       <p
-        className="text-sm text-white max-w-xs relative z-10 px-10">
+        className="text-sm text-white w-full relative z-10 px-10">
         {description}
       </p>
     </motion.div>)

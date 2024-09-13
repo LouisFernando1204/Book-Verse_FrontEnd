@@ -95,14 +95,14 @@ export default function Navbar() {
             </div>
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <button className="text-base flex flex-row space-x-2 justify-center items-center px-4 py-1 rounded-full bg-gradient-to-b from-gray-900 to-gray-700 text-white hover:shadow-xl transition duration-200">
+            <Link to="/library" className="text-base flex flex-row space-x-2 justify-center items-center px-4 py-1 rounded-full bg-gradient-to-b from-gray-900 to-gray-700 text-white hover:shadow-xl transition duration-200">
               Login
               <img
                 alt="ICP"
                 src={icpLogo}
                 className="h-8 w-auto ms-2"
               />
-            </button>
+            </Link>
           </div>
         </div>
       </div>
