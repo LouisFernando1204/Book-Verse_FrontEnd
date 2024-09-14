@@ -10,6 +10,7 @@ const initialNavigation = [
   { name: 'Home', href: '/', current: false },
   { name: 'Library', href: '/library', current: false },
   { name: 'Profile', href: '/profile', current: false },
+  { name: 'Publish', href: '/publish', current: false },
 ];
 
 function classNames(...classes) {
