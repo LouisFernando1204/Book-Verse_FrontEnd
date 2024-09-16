@@ -30,6 +30,7 @@ const Card = ({
 }) => {
   const [active, setActive] = useState(null);
   const [readers, setReaders] = useState(0);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const id = useId();
   const ref = useRef(null);
@@ -56,7 +57,9 @@ const Card = ({
 
   const specificBook = async (data) => {
     setActive(data);
+    setLoading(true);
     await fetchReaders(data);
+    setLoading(false);
   };
 
   const fetchReaders = async (data) => {
@@ -152,11 +155,7 @@ const Card = ({
                     exit={{ opacity: 0 }}
                     className="text-center w-1/4 px-2 py-3 text-sm rounded-full font-bold bg-blue-500 text-white"
                   >
-                    <button
-                      onClick={() => handleRead(active)}
-                    >
-                      Read Now
-                    </button>
+                    <button onClick={() => handleRead(active)}>Read Now</button>
                   </motion.div>
                 </div>
                 <div className="flex flex-col w-full h-full justify-between">
@@ -186,10 +185,16 @@ const Card = ({
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
-                      className="text-white text-center text-sm lg:text-base md:h-fit flex flex-row space-x-1 items-center overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch]"
+                      className="text-white text-center text-sm lg:text-base md:h-fit overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch]"
                     >
-                      <p>read by {readers}</p>
-                      <span> peeps</span>
+                      {loading ? (
+                        <Skeleton />
+                      ) : (
+                        <div className="flex flex-row space-x-1 items-center">
+                          <p>read by {readers}</p>
+                          <span> peeps</span>
+                        </div>
+                      )}
                     </motion.div>
                   </div>
                 </div>
