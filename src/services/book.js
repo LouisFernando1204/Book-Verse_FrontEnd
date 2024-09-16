@@ -33,7 +33,7 @@ function structuredBooks(data) {
     cover: book.cover.toString(),
     author: book.author.toString(),
     year: parseInt(book.year),
-    genre: book.genre.toString()
+    genre: book.genre.toString(),
   }));
   return bookList;
 }

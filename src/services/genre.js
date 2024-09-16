@@ -16,8 +16,6 @@ async function loadGenres() {
 }
 
 function structuredGenres(data) {
-  const genreList = data.map((genre) => ({
-    genre: genre.toString(),
-  }));
+  const genreList = data.map((genre) => genre.toString());
   return genreList;
 }

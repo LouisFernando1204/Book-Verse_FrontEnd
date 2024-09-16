@@ -1,16 +1,38 @@
-import { Routes, Route } from 'react-router-dom';
-import Layout from './components/fixed/Layout';
-import Home from './views/Home';
-import BookList from './views/BookList';
-import BookDetail from './views/BookDetail';
-import Profile from './views/Profile';
-import Missing from './views/Missing';
-import BookForm from './views/BookForm';
+import { Routes, Route } from "react-router-dom";
+import Layout from "./components/fixed/Layout";
+import Home from "./views/Home";
+import BookList from "./views/BookList";
+import BookDetail from "./views/BookDetail";
+import Profile from "./views/Profile";
+import Missing from "./views/Missing";
+import BookForm from "./views/BookForm";
+import { useEffect, useState } from "react";
+import { connectII, getCurrentIdentity } from "./services/connector";
 
 function App() {
+  const [identity, setIdentity] = useState("");
+
+  const onLogin = async () => {
+    try {
+      await connectII();
+      setAccount();
+    } 
+    catch (error) {
+      console.log(error);
+    }
+  };
+
+  const setAccount = () => {
+    const currentIdentity = getCurrentIdentity();
+    setIdentity(currentIdentity);
+  }
+
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
+      <Route
+        path="/"
+        element={<Layout onLogin={onLogin} identity={identity} />}
+      >
         <Route index element={<Home />} />
         <Route path="library" element={<BookList />} />
         <Route path="ebook" element={<BookDetail />} />
@@ -19,7 +41,7 @@ function App() {
         <Route path="*" element={<Missing />} />
       </Route>
     </Routes>
-  )
+  );
 }
 
-export default App
+export default App;
