@@ -154,9 +154,6 @@ const Card = ({
                   >
                     <button
                       onClick={() => handleRead(active)}
-                      // to={`/ebook?file=https://gateway.pinata.cloud/ipfs/${encodeURIComponent(
-                      //   active.file
-                      // )}`}
                     >
                       Read Now
                     </button>
