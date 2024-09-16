@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { CloseIcon } from "./close-icon";
 import Skeleton from "react-loading-skeleton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "react-loading-skeleton/dist/skeleton.css";
 import ImageWithSkeleton from "./image-with-skeleton";
 import { AnimatePresence, motion } from "framer-motion";
@@ -17,6 +17,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBitcoin } from "@fortawesome/free-brands-svg-icons";
 import { truncate } from "../../utils/helper";
+import { getReaders, readBook } from "../../services/reader";
 
 const Card = ({
   handleAddToFavorites,
@@ -28,6 +29,8 @@ const Card = ({
   searchTerm,
 }) => {
   const [active, setActive] = useState(null);
+  const [readers, setReaders] = useState(0);
+  const navigate = useNavigate();
   const id = useId();
   const ref = useRef(null);
 
@@ -50,6 +53,27 @@ const Card = ({
   }, [active]);
 
   useOutsideClick(ref, () => setActive(null));
+
+  const specificBook = async (data) => {
+    setActive(data);
+    await fetchReaders(data);
+  };
+
+  const fetchReaders = async (data) => {
+    const title = data.title;
+    const readers = await getReaders(title);
+    setReaders(readers);
+  };
+
+  const handleRead = async (data) => {
+    navigate(
+      `/ebook?file=https://gateway.pinata.cloud/ipfs/${encodeURIComponent(
+        data.file
+      )}`
+    );
+    const title = data.title;
+    await readBook(title);
+  };
 
   return (
     <>
@@ -86,7 +110,7 @@ const Card = ({
                 <img
                   src={`https://gateway.pinata.cloud/ipfs/${active.cover}`}
                   alt={active.title}
-                  className="w-full h-80 sm:rounded-tr-lg sm:rounded-tl-lg object-cover object-top"
+                  className="w-full h-64 sm:rounded-tr-lg sm:rounded-tl-lg object-cover object-top"
                 />
               </motion.div>
               <div className="flex flex-col h-full w-full">
@@ -128,9 +152,14 @@ const Card = ({
                     exit={{ opacity: 0 }}
                     className="text-center w-1/4 px-2 py-3 text-sm rounded-full font-bold bg-blue-500 text-white"
                   >
-                    <Link to={`/ebook?file=${encodeURIComponent(active.file)}`}>
+                    <button
+                      onClick={() => handleRead(active)}
+                      // to={`/ebook?file=https://gateway.pinata.cloud/ipfs/${encodeURIComponent(
+                      //   active.file
+                      // )}`}
+                    >
                       Read Now
-                    </Link>
+                    </button>
                   </motion.div>
                 </div>
                 <div className="flex flex-col w-full h-full justify-between">
@@ -149,7 +178,7 @@ const Card = ({
                     </motion.p>
                     <motion.p
                       layoutId={`description-${active.description}-${id}`}
-                      className="text-gray-600 text-base mt-4 line-clamp-3"
+                      className="text-gray-600 text-base mt-4 line-clamp-2"
                     >
                       {active.synopsis || <Skeleton count={5} />}
                     </motion.p>
@@ -160,9 +189,10 @@ const Card = ({
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
-                      className="text-white text-center text-sm lg:text-base md:h-fit flex flex-col items-center gap-4 overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch]"
+                      className="text-white text-center text-sm lg:text-base md:h-fit flex flex-row space-x-1 items-center overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch]"
                     >
-                      read by {active.readers || <Skeleton />} peeps
+                      <p>read by {readers}</p>
+                      <span> peeps</span>
                     </motion.div>
                   </div>
                 </div>
@@ -262,13 +292,13 @@ const Card = ({
                 <motion.div
                   layoutId={`ebook-${ebook.title}-${id}`}
                   key={ebook.title}
-                  onClick={() => setActive(ebook)}
+                  onClick={() => specificBook(ebook)}
                   className="p-4 flex flex-col hover:bg-blue-100 rounded-xl cursor-pointer"
                 >
                   <div className="flex gap-4 flex-col w-full">
                     <motion.div layoutId={`image-${ebook.title}-${id}`}>
                       <ImageWithSkeleton
-                        src={ebook.thumbnail}
+                        src={`https://gateway.pinata.cloud/ipfs/${ebook.cover}`}
                         alt={ebook.title}
                       />
                     </motion.div>
@@ -283,7 +313,7 @@ const Card = ({
                         layoutId={`author-${ebook.author}-${id}`}
                         className="text-gray-600 text-center md:text-left text-base"
                       >
-                        {ebook.author || <Skeleton />}
+                        {truncate(ebook.author, 4, 4, 11) || <Skeleton />}
                       </motion.p>
                     </div>
                   </div>
