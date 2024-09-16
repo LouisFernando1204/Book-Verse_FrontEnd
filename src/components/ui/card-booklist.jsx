@@ -173,7 +173,7 @@ const Card = ({
                       Year: {active.year || <Skeleton />}
                     </motion.p>
                     <motion.p
-                      layoutId={`description-${active.description}-${id}`}
+                      layoutId={`description-${active.synopsis}-${id}`}
                       className="text-gray-600 text-base mt-4 line-clamp-2"
                     >
                       {active.synopsis || <Skeleton count={5} />}

@@ -33,7 +33,7 @@ function App() {
         path="/"
         element={<Layout onLogin={onLogin} identity={identity} />}
       >
-        <Route index element={<Home />} />
+        <Route index element={<Home identity={identity}/>} />
         <Route path="library" element={<BookList />} />
         <Route path="ebook" element={<BookDetail />} />
         <Route path="profile" element={<Profile />} />

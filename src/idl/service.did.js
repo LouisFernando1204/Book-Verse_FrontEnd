@@ -24,7 +24,7 @@ export const idlFactory = ({ IDL }) => {
     addTask: IDL.Func([IDL.Text, IDL.Text, IDL.Nat, IDL.Text], [], []),
     addToBookmark: IDL.Func([IDL.Nat], [], []),
     doTask: IDL.Func([IDL.Nat], [], []),
-    getAuthorSubscribers: IDL.Func([IDL.Principal], [IDL.Nat], ["query"]),
+    donateToAuthor: IDL.Func([IDL.Principal, IDL.Nat], [], []),
     getBookReaders: IDL.Func([IDL.Text], [IDL.Nat], ["query"]),
     getBookmarks: IDL.Func([IDL.Principal], [IDL.Vec(IDL.Nat)], ["query"]),
     getBooks: IDL.Func([], [IDL.Vec(Book)], ["query"]),
@@ -32,14 +32,10 @@ export const idlFactory = ({ IDL }) => {
     getCurrentBook: IDL.Func([IDL.Principal], [IDL.Bool, IDL.Text], ["query"]),
     getGenres: IDL.Func([], [IDL.Vec(IDL.Text)], ["query"]),
     getPoints: IDL.Func([IDL.Principal], [IDL.Nat], ["query"]),
-    getSubscriptionPrice: IDL.Func([IDL.Principal], [IDL.Nat], ["query"]),
     getTasks: IDL.Func([], [IDL.Vec(Task)], ["query"]),
     getUploadedBooks: IDL.Func([IDL.Principal], [IDL.Vec(Book)], ["query"]),
-    getUserSubscriptions: IDL.Func([IDL.Principal], [IDL.Nat], ["query"]),
-    goPremium: IDL.Func([IDL.Nat], [], []),
     readBook: IDL.Func([IDL.Text], [], []),
     removeFromBookmark: IDL.Func([IDL.Nat], [], []),
-    subscribeAuthor: IDL.Func([IDL.Principal], [], []),
   });
 };
 export const init = ({ IDL }) => {
