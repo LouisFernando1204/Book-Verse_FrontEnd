@@ -2,20 +2,47 @@
 import React, { useEffect, useState, Suspense } from "react";
 import { LampContainer } from "../components/ui/lamp";
 import Card from "../components/ui/card-home";
+import { getCompletedTasks, getTasks } from "../services/Task";
 
 const Profile = () => {
-    const dummyData = {
-        booksUploaded: 24,
-        donationCount: 3,
-        pointGain: 235,
-        pointDonation: 437,
-        tasks: [
-            { title: "Donate a total of 500 points", completed: false, points: 50 },
-            { title: "Update profile bio", completed: true, points: 10 },
-            { title: "Nggarahi Joren", completed: true, points: 20 },
-            { title: "Minta ditraktir Joren", completed: true, points: 20 },
-        ],
-    };
+    const [taskdata, setTaskData] = useState([]);
+    const [completedtask, setCompletedTask] = useState([])
+    useEffect(() => {
+        const fetchTask = async () => {
+            try{
+                const tasks = await getTasks();
+                setTaskData(tasks)
+            }catch (error){
+                console.log(error)
+
+        }};
+
+       fetchTask()
+    }, [])
+    useEffect(() => {
+        const fetchcompletedtask = async () => {
+            try{
+                const tasked = await getCompletedTasks();
+                setCompletedTask(tasked)
+            }catch (error){
+                console.log(error)
+
+        }};
+
+        fetchcompletedtask()
+    }, [])
+    // const dummyData = {
+    //     booksUploaded: 24,
+    //     donationCount: 3,
+    //     pointGain: 235,
+    //     pointDonation: 437,
+    //     tasks: [
+    //         { title: "Donate a total of 500 points", completed: false, points: 50 },
+    //         { title: "Update profile bio", completed: true, points: 10 },
+    //         { title: "Nggarahi Joren", completed: true, points: 20 },
+    //         { title: "Minta ditraktir Joren", completed: true, points: 20 },
+    //     ],
+    // };
 
     const copyToClipboard = () => {
         const username = document.getElementById('username').innerText;
@@ -46,19 +73,19 @@ const Profile = () => {
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
                 <div className="text-center p-4 bg-gray-100 rounded-md shadow">
-                    <h2 className="text-2xl font-bold">{dummyData.booksUploaded}</h2>
+                    <h2 className="text-2xl font-bold">24</h2>
                     <p className="text-gray-600">Books Uploaded</p>
                 </div>
                 <div className="text-center p-4 bg-gray-100 rounded-md shadow">
-                    <h2 className="text-2xl font-bold">{dummyData.donationCount}</h2>
+                    <h2 className="text-2xl font-bold">24</h2>
                     <p className="text-gray-600">Donation Count</p>
                 </div>
                 <div className="text-center p-4 bg-gray-100 rounded-md shadow">
-                    <h2 className="text-2xl font-bold">{dummyData.pointGain}</h2>
+                    <h2 className="text-2xl font-bold">24</h2>
                     <p className="text-gray-600">Points Gained</p>
                 </div>
                 <div className="text-center p-4 bg-gray-100 rounded-md shadow">
-                    <h2 className="text-2xl font-bold">{dummyData.pointDonation}</h2>
+                    <h2 className="text-2xl font-bold"></h2>
                     <p className="text-gray-600">Points Donated</p>
                 </div>
             </div>
@@ -66,10 +93,25 @@ const Profile = () => {
             <div className="mt-8">
                 <h3 className="text-xl font-semibold">Tasks</h3>
                 <ul className="mt-4 space-y-2">
-                    {dummyData.tasks.map((task, index) => (
-                        <li key={index} className={`flex flex-row justify-between p-4 rounded-md ${task.completed ? 'bg-green-100' : 'bg-red-100'} shadow`}>
-                            {task.title}
-                            <p className="text-gray-600">+{task.points} pt</p>
+                    {taskdata.map((task, index) => (
+                        <li key={index} className={`flex flex-row justify-between p-4 rounded-md bg-red-100`}>
+                            {task.name}
+                            <p className="text-gray-600">+{task.point} pt</p>
+                        </li>
+                    ))}
+                     {completedtask.map((task, index) => (
+                        <li key={index} className={`flex flex-row justify-between p-4 rounded-md bg-red-100`}>
+                            {task.name}
+                            <p className="text-gray-600">+{task.point} pt</p>
+                        </li>
+                    ))}
+                </ul>
+                <h3 className="text-xl font-semibold">Completed Tasks</h3>
+                <ul>
+                {completedtask.map((task, index) => (
+                        <li key={index} className={`flex flex-row justify-between p-4 rounded-md bg-red-100`}>
+                            {task.name}
+                            <p className="text-gray-600">+{task.point} pt</p>
                         </li>
                     ))}
                 </ul>
