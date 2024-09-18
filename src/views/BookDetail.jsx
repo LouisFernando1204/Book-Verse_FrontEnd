@@ -37,7 +37,7 @@ const BookDetail = () => {
     };
 
     return (
-        <div className="w-screen h-screen">
+        <div className="w-screen h-screen p-8 bg-white">
             {isLoading ? (
                 <LoadingScreen />
             ) : errorMessage ? (
