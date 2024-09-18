@@ -2,15 +2,15 @@
 import React, { useEffect, useState, Suspense } from "react";
 import { LampContainer } from "../components/ui/lamp";
 import Card from "../components/ui/card-home";
-import { getCompletedTasks, getTasks } from "../services/Task";
+import { addCompletedTask, getCompletedTasks, getTasks, getIncompletetask} from "../services/Task";
 
-const Profile = () => {
+const Profile = ({identity}) => {
     const [taskdata, setTaskData] = useState([]);
     const [completedtask, setCompletedTask] = useState([])
     useEffect(() => {
         const fetchTask = async () => {
             try{
-                const tasks = await getTasks();
+                const tasks = await getIncompletetask(identity);
                 setTaskData(tasks)
             }catch (error){
                 console.log(error)
@@ -22,7 +22,8 @@ const Profile = () => {
     useEffect(() => {
         const fetchcompletedtask = async () => {
             try{
-                const tasked = await getCompletedTasks();
+                const tasked = await getCompletedTasks(identity);
+                console.log(tasked)
                 setCompletedTask(tasked)
             }catch (error){
                 console.log(error)
@@ -48,6 +49,10 @@ const Profile = () => {
         const username = document.getElementById('username').innerText;
         navigator.clipboard.writeText(username)
     };
+
+    const dotask = async (id) => {
+        await addCompletedTask(id)
+    }
 
     return (
         // <LampContainer>
@@ -91,30 +96,38 @@ const Profile = () => {
             </div>
 
             <div className="mt-8">
+                <div>
                 <h3 className="text-xl font-semibold">Tasks</h3>
                 <ul className="mt-4 space-y-2">
-                    {taskdata.map((task, index) => (
-                        <li key={index} className={`flex flex-row justify-between p-4 rounded-md bg-red-100`}>
-                            {task.name}
-                            <p className="text-gray-600">+{task.point} pt</p>
-                        </li>
-                    ))}
-                     {completedtask.map((task, index) => (
-                        <li key={index} className={`flex flex-row justify-between p-4 rounded-md bg-red-100`}>
-                            {task.name}
-                            <p className="text-gray-600">+{task.point} pt</p>
-                        </li>
-                    ))}
-                </ul>
-                <h3 className="text-xl font-semibold">Completed Tasks</h3>
+  {taskdata.map((task, index) => (
+    <li key={index} className="flex flex-row justify-between p-4 rounded-md bg-red-100">
+    {/* <a href={task.url}> */}
+      <button
+        onClick={() => dotask(task.id)}
+        className="flex justify-between w-full text-left mb-3"
+      >
+        <span>{task.name}</span>
+        <p className="text-gray-600">+{task.point} pt</p>
+      </button>
+      {/* </a> */}
+    </li>
+  ))}
+</ul>
+                </div>
+                <div className="my-5">
+                <h3 className="text-xl font-semibold mb-5">Completed Tasks</h3>
                 <ul>
-                {completedtask.map((task, index) => (
-                        <li key={index} className={`flex flex-row justify-between p-4 rounded-md bg-red-100`}>
-                            {task.name}
-                            <p className="text-gray-600">+{task.point} pt</p>
+                {completedtask.map((tasked, index) => (
+                        <li key={index} className={`flex flex-row justify-between p-4 mb-3 rounded-md bg-green-100`}>
+                            {tasked.name}
+                            <p className="text-gray-600">+{tasked.point} pt</p>
                         </li>
                     ))}
                 </ul>
+                </div>
+                
+
+                
             </div>
 
             <div className="mt-8">

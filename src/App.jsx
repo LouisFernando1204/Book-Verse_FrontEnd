@@ -36,7 +36,7 @@ function App() {
         <Route index element={<Home identity={identity}/>} />
         <Route path="library" element={<BookList />} />
         <Route path="ebook" element={<BookDetail />} />
-        <Route path="profile" element={<Profile />} />
+        <Route path="profile" element={<Profile identity={identity} />} />
         <Route path="publish" element={<BookForm />} />
         <Route path="*" element={<Missing />} />
       </Route>
