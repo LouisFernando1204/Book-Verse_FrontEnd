@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 "use client";
 import React, { useEffect, useState, Suspense } from "react";
@@ -26,12 +26,13 @@ import { getBooks } from "../services/book";
 import { getCurrentBook } from "../services/reader";
 import { getCurrentIdentity } from "../services/connector";
 import { useNavigate } from "react-router-dom";
+import { addToBookmark, getBookmarks, removeFromBookmark, donateToAuthor } from "../services/book";
 
 const World = React.lazy(() =>
   import("../components/ui/globe").then((m) => ({ default: m.World }))
 );
 
-const Home = ( { identity }) => {
+const Home = ({ identity }) => {
   const searchPlaceholders = [
     "Search for a classic literature e-book...",
     "Find the latest best-sellers in digital format...",
@@ -129,7 +130,21 @@ const Home = ( { identity }) => {
       );
       setEbooksData(filteredYear);
     };
+
     fetchEbooks();
+
+    const fetchBookmark = async () => {
+      try {
+        setLoading(true);
+        const data = await getBookmarks(identity);
+        setFavoriteEBooks(data);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchBookmark();
   }, []);
 
   useEffect(() => {
@@ -165,15 +180,22 @@ const Home = ( { identity }) => {
     e.preventDefault();
   };
 
-  const handleAddToFavorites = (ebook) => {
+  const handleAddToFavorites = async (ebook) => {
     const isFavorite = favoriteEBooks.some((fav) => fav.title === ebook.title);
 
     if (isFavorite) {
+      await removeFromBookmark(ebook.id);
       setFavoriteEBooks(
         favoriteEBooks.filter((fav) => fav.title !== ebook.title)
       );
+      console.log(favoriteEBooks);
+
     } else {
-      setFavoriteEBooks([...favoriteEBooks, ebook]);
+      await addToBookmark(ebook.id);
+      const updatedFavorites = await getBookmarks(identity);
+      setFavoriteEBooks([...updatedFavorites]);
+      console.log(favoriteEBooks);
+
     }
   };
 
@@ -183,6 +205,10 @@ const Home = ( { identity }) => {
         currentRead.file
       )}`
     );
+  };
+
+  const handleDonateToAuthor = async (identity, amount) => {
+    await donateToAuthor(identity, amount);
   };
 
   return (
@@ -296,6 +322,8 @@ const Home = ( { identity }) => {
               filteredEBooks={filteredEBooks}
               favoriteEBooks={favoriteEBooks}
               message={message}
+              donateToAuthor={handleDonateToAuthor}
+              identity={identity}
             />
           </div>
           <div className="w-full h-full bg-gray-900 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 relative z-10 mx-auto p-8 sm:p-10">

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useState, useRef, useEffect } from "react";
 import publishBackground from "../assets/blue-dot-wave-pattern-digital-vector-50803791.jpg";
 import ErrorMessage from "../components/ui/error-message";

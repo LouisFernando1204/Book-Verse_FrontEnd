@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { CloseIcon } from "./close-icon";
 import Skeleton from "react-loading-skeleton";
@@ -27,11 +28,15 @@ const Card = ({
   isAllEBook,
   isBookmark,
   searchTerm,
+  donateToAuthor,
+  identity
 }) => {
   const [active, setActive] = useState(null);
   const [readers, setReaders] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [amount, setAmount] = useState(0);
   const navigate = useNavigate();
+
   const id = useId();
   const ref = useRef(null);
 
@@ -229,6 +234,7 @@ const Card = ({
                             How much you want to donate:
                           </label>
                           <input
+                            onChange={(e) => setAmount(e.target.value)}
                             type="number"
                             min="1"
                             step="1"
@@ -242,7 +248,7 @@ const Card = ({
                       </div>
                     </ModalContent>
                     <ModalFooter className="">
-                      <button className="bg-blue-500 text-white text-sm lg:text-base px-4 py-2 rounded-md border border-blue-500 w-28">
+                      <button onClick={() => donateToAuthor(identity, amount)} className="bg-blue-500 text-white text-sm lg:text-base px-4 py-2 rounded-md border border-blue-500 w-28">
                         Donate
                       </button>
                     </ModalFooter>

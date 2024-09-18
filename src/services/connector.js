@@ -1,7 +1,6 @@
 import { AuthClient } from "@dfinity/auth-client";
 import { idlFactory } from "../idl/service.did";
 import { Actor, HttpAgent } from "@dfinity/agent";
-
 const webAppId = "bczox-miaaa-aaaap-qhypa-cai";
 const webAppIDL = idlFactory;
 

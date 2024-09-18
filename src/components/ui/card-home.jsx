@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { CloseIcon } from "./close-icon";
 import Skeleton from "react-loading-skeleton";
@@ -18,16 +19,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBitcoin } from "@fortawesome/free-brands-svg-icons";
 import { truncate } from "../../utils/helper";
 import { getReaders, readBook } from "../../services/reader";
-
 const Card = ({
   handleAddToFavorites,
   filteredEBooks,
   favoriteEBooks,
   message,
+  donateToAuthor,
+  identity
 }) => {
   const [active, setActive] = useState(null);
   const [readers, setReaders] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [amount, setAmount] = useState(0);
 
   const id = useId();
   const navigate = useNavigate();
@@ -227,6 +230,7 @@ const Card = ({
                             How much you want to donate:
                           </label>
                           <input
+                            onChange={(e) => setAmount(e.target.value)}
                             type="number"
                             min="1"
                             step="1"
@@ -240,7 +244,7 @@ const Card = ({
                       </div>
                     </ModalContent>
                     <ModalFooter className="">
-                      <button className="bg-blue-500 text-white text-sm lg:text-base px-4 py-2 rounded-md border border-blue-500 w-28">
+                      <button onClick={() => donateToAuthor(identity, amount)} className="bg-blue-500 text-white text-sm lg:text-base px-4 py-2 rounded-md border border-blue-500 w-28">
                         Donate
                       </button>
                     </ModalFooter>

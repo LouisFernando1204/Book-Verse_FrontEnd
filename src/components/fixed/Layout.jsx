@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
@@ -21,7 +22,7 @@ const Layout = ({ onLogin, identity }) => {
 
     return (
         <>
-            <Navbar onLogin={onLogin} identity={identity}/>
+            <Navbar onLogin={onLogin} identity={identity} />
             <BackgroundBeamsWithCollision className="min-h-screen h-full w-full flex flex-col items-center justify-start">
                 <Outlet />
             </BackgroundBeamsWithCollision>
