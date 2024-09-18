@@ -314,7 +314,7 @@ const Home = ( { identity }) => {
               }}
               className="mb-6 sm:mb-8 col-span-1 md:col-span-2 lg:col-span-4 text-3xl md:text-4xl lg:text-5xl text-center text-gray-900 font-semibold relative p-1 bg-clip-text text-transparent bg-no-repeat bg-gradient-to-r from-blue-600 via-blue-400 to-blue-700"
             >
-              Empowering Digital Publishing with Innovative Solutions
+              <h1 className="pb-4">Empowering Digital Publishing with Innovative Solutions</h1>
             </motion.h2>
             {features.map((feature, index) => (
               <Section key={feature.title} {...feature} index={index} />
@@ -336,7 +336,7 @@ const Home = ( { identity }) => {
               }}
               className="div"
             >
-              <h2 className="text-3xl md:text-4xl lg:text-5xl text-center text-gray-900 font-semibold relative p-1 bg-clip-text text-transparent bg-no-repeat bg-gradient-to-r from-blue-600 via-blue-400 to-blue-700">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl text-center text-gray-900 font-semibold relative pb-4 bg-clip-text text-transparent bg-no-repeat bg-gradient-to-r from-blue-600 via-blue-400 to-blue-700">
                 Revolutionizing Literature
               </h2>
               <p className="text-center text-base md:text-lg font-normal text-gray-700 max-w-md mt-2 mx-auto">
