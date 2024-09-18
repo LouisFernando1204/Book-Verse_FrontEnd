@@ -1,4 +1,5 @@
 import { getWebAppWithLogin, getWebAppWithoutLogin } from "./connector";
+import { Principal } from "@dfinity/principal";
 
 export async function createBook(title, synopsis, year, genre, cover, file) {
   try {
@@ -6,6 +7,21 @@ export async function createBook(title, synopsis, year, genre, cover, file) {
     await webApp.addBook(title, synopsis, year, genre, cover, file);
   } catch (error) {
     console.log(error);
+  }
+}
+
+export async function getUploadedBooks(user){
+  return await loadUploadedBooks(user);
+}
+
+async function loadUploadedBooks(user) {
+  try {
+    const webApp = await getWebAppWithLogin();
+    const data = await webApp.getUploadedBooks(Principal.fromText(user));
+    return structuredBooks(data);
+  } catch (error) {
+    console.log(error); 
+    return [];
   }
 }
 
@@ -23,6 +39,7 @@ async function loadBooks() {
     return [];
   }
 }
+
 
 function structuredBooks(data) {
   const bookList = data.map((book) => ({
