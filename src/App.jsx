@@ -6,7 +6,7 @@ import BookDetail from "./views/BookDetail";
 import Profile from "./views/Profile";
 import Missing from "./views/Missing";
 import BookForm from "./views/BookForm";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { connectII, getCurrentIdentity } from "./services/connector";
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
     try {
       await connectII();
       setAccount();
-    } 
+    }
     catch (error) {
       console.log(error);
     }
@@ -24,6 +24,7 @@ function App() {
 
   const setAccount = () => {
     const currentIdentity = getCurrentIdentity();
+    console.log(currentIdentity);
     setIdentity(currentIdentity);
   }
 
@@ -33,10 +34,10 @@ function App() {
         path="/"
         element={<Layout onLogin={onLogin} identity={identity} />}
       >
-        <Route index element={<Home identity={identity}/>} />
-        <Route path="library" element={<BookList />} />
+        <Route index element={<Home identity={identity} />} />
+        <Route path="library" element={<BookList identity={identity} />} />
         <Route path="ebook" element={<BookDetail />} />
-        <Route path="profile" element={<Profile identity={identity} />} />
+        <Route path="profile" element={<Profile />} />
         <Route path="publish" element={<BookForm />} />
         <Route path="*" element={<Missing />} />
       </Route>
