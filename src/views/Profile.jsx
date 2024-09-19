@@ -182,32 +182,27 @@ const Profile = ({identity}) => {
 
             <div className="mt-8">
                 <h3 className="text-xl font-semibold">Your Books</h3>
-                <ul className="mt-4 space-y-2">
-                   
-                    {/* <Card
-                        handleAddToFavorites={handleAddToFavorites}
-                        filteredEBooks={filteredEBooks}
-                        favoriteEBooks={favoriteEBooks}
-                        message={message}
-                    /> */}
-                    {uploadbooks.map((ebook, index) => (
-                        <li>
-                            <div>
-                            <ImageWithSkeleton
-                        src={`https://gateway.pinata.cloud/ipfs/${ebook.cover}`}
-                        alt={ebook.title}
-                      />
-                      <p className="text-gray-600">{ebook.title}</p>
-                      </div>
-                        </li>
-                    ))}
-                </ul>
+                <ul className="mt-4 flex flex-wrap gap-4">
+  {uploadbooks.map((ebook, index) => (
+    <li key={index} className="flex-none w-64">
+      <div className="flex flex-col items-center p-4 bg-white rounded-md shadow-md transition hover:bg-blue-100">
+        <div className="w-60 h-22">
+          <ImageWithSkeleton
+            src={`https://gateway.pinata.cloud/ipfs/${ebook.cover}`}
+            alt={ebook.title}
+            className="w-1/3 h-1/3 object-cover"
+          />
+        </div>
+        <p className="text-gray-600 mt-2 text-center text-Bold">{ebook.title}</p>
+      </div>
+    </li>
+  ))}
+</ul>
+
             </div>
 
             <div className="mt-8 text-center">
-                <button className="px-6 py-3 bg-indigo-500 text-white rounded-lg shadow hover:bg-indigo-600 transition duration-300">
-                    Create New Book
-                </button>
+                
             </div>
         </div>
         // </LampContainer >
