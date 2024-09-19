@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 "use client";
@@ -323,7 +324,6 @@ const Home = ({ identity }) => {
               favoriteEBooks={favoriteEBooks}
               message={message}
               donateToAuthor={handleDonateToAuthor}
-              identity={identity}
             />
           </div>
           <div className="w-full h-full bg-gray-900 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 relative z-10 mx-auto p-8 sm:p-10">

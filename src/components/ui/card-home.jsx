@@ -24,9 +24,7 @@ const Card = ({
   filteredEBooks,
   favoriteEBooks,
   message,
-  donateToAuthor,
-  identity
-}) => {
+  donateToAuthor}) => {
   const [active, setActive] = useState(null);
   const [readers, setReaders] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -244,7 +242,7 @@ const Card = ({
                       </div>
                     </ModalContent>
                     <ModalFooter className="">
-                      <button onClick={() => donateToAuthor(identity, amount)} className="bg-blue-500 text-white text-sm lg:text-base px-4 py-2 rounded-md border border-blue-500 w-28">
+                      <button onClick={async () => await donateToAuthor(active.author, amount)} className="bg-blue-500 text-white text-sm lg:text-base px-4 py-2 rounded-md border border-blue-500 w-28">
                         Donate
                       </button>
                     </ModalFooter>

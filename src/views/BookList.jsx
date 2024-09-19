@@ -181,7 +181,6 @@ const BookList = ({ identity }) => {
               isBookmark={isBookmark}
               searchTerm={searchTerm}
               donateToAuthor={handleDonateToAuthor}
-              identity={identity}
             />
           </div>
         )}

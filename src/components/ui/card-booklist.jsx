@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { CloseIcon } from "./close-icon";
-import Skeleton from "react-loading-skeleton";
+import Skeleton from 'react-loading-skeleton';
 import { Link, useNavigate } from "react-router-dom";
 import "react-loading-skeleton/dist/skeleton.css";
 import ImageWithSkeleton from "./image-with-skeleton";
@@ -29,7 +29,6 @@ const Card = ({
   isBookmark,
   searchTerm,
   donateToAuthor,
-  identity
 }) => {
   const [active, setActive] = useState(null);
   const [readers, setReaders] = useState(0);
@@ -193,7 +192,7 @@ const Card = ({
                       className="text-white text-center text-sm lg:text-base md:h-fit overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch]"
                     >
                       {loading ? (
-                        <Skeleton />
+                          <Skeleton />
                       ) : (
                         <div className="flex flex-row space-x-1 items-center">
                           <p>read by {readers}</p>
@@ -248,7 +247,7 @@ const Card = ({
                       </div>
                     </ModalContent>
                     <ModalFooter className="">
-                      <button onClick={() => donateToAuthor(identity, amount)} className="bg-blue-500 text-white text-sm lg:text-base px-4 py-2 rounded-md border border-blue-500 w-28">
+                      <button onClick={async () => await donateToAuthor(active.author, amount)} className="bg-blue-500 text-white text-sm lg:text-base px-4 py-2 rounded-md border border-blue-500 w-28">
                         Donate
                       </button>
                     </ModalFooter>
@@ -365,7 +364,7 @@ const Card = ({
             {message}
           </motion.h2>
         )}
-      </motion.ul>
+      </motion.ul>     
     </>
   );
 };

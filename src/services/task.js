@@ -128,7 +128,6 @@ export async function getTasks() {
     try{
         const webApp = await getWebAppWithLogin();
         await webApp.doTask(id);
-
     }catch(error){
         console.log(error)
     }
