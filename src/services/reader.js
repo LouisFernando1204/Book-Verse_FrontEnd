@@ -26,6 +26,21 @@ async function loadReaders(title) {
   }
 }
 
+export async function getPoints(user) {
+  return await loadPoints(user);
+}
+
+export async function loadPoints(user) {
+  try {
+    const webApp = await getWebAppWithLogin();
+    const data = await webApp.getPoints(Principal.fromText(user));
+    return data;
+  } catch (error) {
+    console.log(error);
+    return 0;
+  }
+}
+
 export async function getCurrentBook(user) {
   return await loadCurrentBook(user);
 }
