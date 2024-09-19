@@ -43,7 +43,12 @@ export async function getTasks() {
       const webApp = await getWebAppWithLogin();
       console.log(currentIdentity)
       const data = await webApp.getCompletedTasks(Principal.fromText(currentIdentity));
-      return await structuredTaskINCompleted(data);
+      const data2 = await webApp.getTasks()
+      if (structuredTaskINCompleted(data) === structuredTask(data)){
+        return null;
+      }else{
+         return await structuredTaskINCompleted(data2);
+      }
     } catch (error) {
       console.log(error);
       return [];

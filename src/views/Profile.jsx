@@ -71,6 +71,7 @@ const Profile = ({identity}) => {
         const fetchTask = async () => {
             try{
                 const tasks = await getIncompletetask(identity);
+                console.log(tasks)
                 setTaskData(tasks)
             }catch (error){
                 console.log(error)
@@ -114,7 +115,7 @@ const Profile = ({identity}) => {
                     />
                 </div>
                 <div className="text-center md:text-left flex flex-row justify-start gap-2 items-center">
-                    <h1 id="username" className="text-3xl font-semibold">NyahojaLover3000</h1>
+                    <h1 id="username" className="text-3xl font-semibold">{identity}</h1>
                     <img
                         className="w-6 h-6 cursor-pointer"
                         src="https://img.icons8.com/fluency-systems-regular/50/copy--v1.png"
