@@ -34,7 +34,7 @@ export async function loadPoints(user) {
   try {
     const webApp = await getWebAppWithLogin();
     const data = await webApp.getPoints(Principal.fromText(user));
-    return data;
+    return parseInt(data);
   } catch (error) {
     console.log(error);
     return 0;
@@ -56,5 +56,35 @@ async function loadCurrentBook(user) {
   catch (error) {
     console.log(error);
     return;
+  }
+}
+
+export async function getpointdonated(user){
+  return await loadPointsdonated(user);
+}
+
+export async function loadPointsdonated(user) {
+  try {
+    const webApp = await getWebAppWithLogin();
+    const data = await webApp.getDonationTotal(Principal.fromText(user));
+    return parseInt(data);
+  } catch (error) {
+    console.log(error);
+    return 0;
+  }
+}
+
+export async function getpointdonatedAmount(user){
+  return await loadPointsdonatedAmount(user);
+}
+
+export async function loadPointsdonatedAmount(user) {
+  try {
+    const webApp = await getWebAppWithLogin();
+    const data = await webApp.getDonationAmount(Principal.fromText(user));
+    return parseInt(data);
+  } catch (error) {
+    console.log(error);
+    return 0;
   }
 }

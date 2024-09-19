@@ -54,7 +54,6 @@ export async function getTasks() {
     try {
         const webApp = await getWebAppWithLogin();
         const alltask = await webApp.getTasks();
-        // const alltasks = structuredTask(alltask);
         console.log(data)
         const taskList = data.map((id) => {
             console.log(id)
@@ -73,25 +72,7 @@ export async function getTasks() {
           console.log(taskList);
       
           return taskList;
-        // const completedTask = alltasks.filter((task) => data.includes(task.id));
-        // console.log(completedTask)
-        // const taskListed = data.map((id) => {
-        // const taskes = alltasks.filter((b) => b.id === parseInt(id)); 
-        // console.log(taskes)
-        //   if (taskes) {
-        //     return {
-        //       id: parseInt(taskes.id),
-        //       name: taskes.title.toString(),
-        //       url: taskes.url.toString(),
-        //       point: parseInt(taskes.point)
-
-        //     };
-        //   }
-        //   return null; 
-        // }).filter(Boolean); 
-        // console.log(taskListed);
     
-        return completedTask; 
       } catch (error) {
         console.log(error);
         return []; 
@@ -102,12 +83,12 @@ export async function getTasks() {
     try {
         const webApp = await getWebAppWithLogin();
         const alltask = await webApp.getTasks();
-        // const alltasks = structuredTask(alltask);
+        const alltasks = structuredTask(alltask);
         console.log(data)
         const taskList = data.map((id) => {
             console.log(id)
 
-            const tasks = alltask.find((b) => b.id !== id); 
+            const tasks = alltasks.find((b) => b.id !== id); 
             if (tasks) {
               return {
                 id: parseInt(tasks.id),
@@ -121,25 +102,6 @@ export async function getTasks() {
           console.log(taskList);
       
           return taskList;
-        // const completedTask = alltasks.filter((task) => data.includes(task.id));
-        // console.log(completedTask)
-        // const taskListed = data.map((id) => {
-        // const taskes = alltasks.filter((b) => b.id === parseInt(id)); 
-        // console.log(taskes)
-        //   if (taskes) {
-        //     return {
-        //       id: parseInt(taskes.id),
-        //       name: taskes.title.toString(),
-        //       url: taskes.url.toString(),
-        //       point: parseInt(taskes.point)
-
-        //     };
-        //   }
-        //   return null; 
-        // }).filter(Boolean); 
-        // console.log(taskListed);
-    
-        return completedTask; 
       } catch (error) {
         console.log(error);
         return []; 

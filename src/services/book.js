@@ -14,10 +14,14 @@ export async function getUploadedBooks(user){
   return await loadUploadedBooks(user);
 }
 
+
 async function loadUploadedBooks(user) {
   try {
     const webApp = await getWebAppWithLogin();
+    console.log(user)
+    console.log(webApp)
     const data = await webApp.getUploadedBooks(Principal.fromText(user));
+    console.log(data)
     return structuredBooks(data);
   } catch (error) {
     console.log(error); 

@@ -3,10 +3,70 @@ import React, { useEffect, useState, Suspense } from "react";
 import { LampContainer } from "../components/ui/lamp";
 import Card from "../components/ui/card-home";
 import { addCompletedTask, getCompletedTasks, getTasks, getIncompletetask} from "../services/Task";
+import { getPoints, getpointdonated, getpointdonatedAmount } from "../services/reader";
+import { getUploadedBooks} from "../services/book";
+import ImageWithSkeleton from "../../src/components/ui/image-with-skeleton";
 
 const Profile = ({identity}) => {
     const [taskdata, setTaskData] = useState([]);
     const [completedtask, setCompletedTask] = useState([])
+    const [points,setpoints] = useState([])
+    const [uploadbooks,setUploadbooks] = useState([])
+    const [pointdonated,setUppointdonated] = useState([])
+    const [pointdonatedamount,setUppointdonatedamount] = useState([])
+    useEffect(() => {
+        const fetchpointdonated = async () => {
+            try{
+                const getpointdonate = await getpointdonated(identity);
+                console.log(getpointdonate)
+                setUppointdonated(getpointdonate)
+            }catch (error){
+                console.log(error)
+
+        }};
+
+        fetchpointdonated()
+    }, [])
+
+    useEffect(() => {
+        const fetchpointdonatedamount = async () => {
+            try{
+                const getpointdonatedamount = await getpointdonatedAmount(identity);
+                console.log(getpointdonatedamount)
+                setUppointdonatedamount(getpointdonatedamount)
+            }catch (error){
+                console.log(error)
+
+        }};
+
+        fetchpointdonatedamount()
+    }, [])
+
+    useEffect(() => {
+        const fetchuploadbooks = async () => {
+            try{
+                const uploadbook = await getUploadedBooks(identity);
+                console.log(uploadbook)
+                setUploadbooks(uploadbook)
+            }catch (error){
+                console.log(error)
+
+        }};
+
+        fetchuploadbooks()
+    }, [])
+    useEffect(() => {
+        const fetchpoint = async () => {
+            try{
+                const point = await getPoints(identity);
+                setpoints(point)
+            }catch (error){
+                console.log(error)
+
+        }};
+
+        fetchpoint()
+    }, [])
     useEffect(() => {
         const fetchTask = async () => {
             try{
@@ -32,18 +92,6 @@ const Profile = ({identity}) => {
 
         fetchcompletedtask()
     }, [])
-    // const dummyData = {
-    //     booksUploaded: 24,
-    //     donationCount: 3,
-    //     pointGain: 235,
-    //     pointDonation: 437,
-    //     tasks: [
-    //         { title: "Donate a total of 500 points", completed: false, points: 50 },
-    //         { title: "Update profile bio", completed: true, points: 10 },
-    //         { title: "Nggarahi Joren", completed: true, points: 20 },
-    //         { title: "Minta ditraktir Joren", completed: true, points: 20 },
-    //     ],
-    // };
 
     const copyToClipboard = () => {
         const username = document.getElementById('username').innerText;
@@ -78,19 +126,19 @@ const Profile = ({identity}) => {
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
                 <div className="text-center p-4 bg-gray-100 rounded-md shadow">
-                    <h2 className="text-2xl font-bold">24</h2>
+                    <h2 className="text-2xl font-bold">{uploadbooks.length}</h2>
                     <p className="text-gray-600">Books Uploaded</p>
                 </div>
                 <div className="text-center p-4 bg-gray-100 rounded-md shadow">
-                    <h2 className="text-2xl font-bold">24</h2>
+                    <h2 className="text-2xl font-bold">{pointdonated}</h2>
                     <p className="text-gray-600">Donation Count</p>
                 </div>
                 <div className="text-center p-4 bg-gray-100 rounded-md shadow">
-                    <h2 className="text-2xl font-bold">24</h2>
+                    <h2 className="text-2xl font-bold">{points}</h2>
                     <p className="text-gray-600">Points Gained</p>
                 </div>
                 <div className="text-center p-4 bg-gray-100 rounded-md shadow">
-                    <h2 className="text-2xl font-bold"></h2>
+                    <h2 className="text-2xl font-bold">{pointdonatedamount}</h2>
                     <p className="text-gray-600">Points Donated</p>
                 </div>
             </div>
@@ -101,15 +149,16 @@ const Profile = ({identity}) => {
                 <ul className="mt-4 space-y-2">
   {taskdata.map((task, index) => (
     <li key={index} className="flex flex-row justify-between p-4 rounded-md bg-red-100">
-    {/* <a href={task.url}> */}
       <button
-        onClick={() => dotask(task.id)}
+        onClick={() => {
+          dotask(task.id);
+          window.open(task.url, '_blank');
+        }}
         className="flex justify-between w-full text-left mb-3"
       >
         <span>{task.name}</span>
         <p className="text-gray-600">+{task.point} pt</p>
       </button>
-      {/* </a> */}
     </li>
   ))}
 </ul>
@@ -133,12 +182,24 @@ const Profile = ({identity}) => {
             <div className="mt-8">
                 <h3 className="text-xl font-semibold">Your Books</h3>
                 <ul className="mt-4 space-y-2">
+                   
                     {/* <Card
                         handleAddToFavorites={handleAddToFavorites}
                         filteredEBooks={filteredEBooks}
                         favoriteEBooks={favoriteEBooks}
                         message={message}
                     /> */}
+                    {uploadbooks.map((ebook, index) => (
+                        <li>
+                            <div>
+                            <ImageWithSkeleton
+                        src={`https://gateway.pinata.cloud/ipfs/${ebook.cover}`}
+                        alt={ebook.title}
+                      />
+                      <p className="text-gray-600">{ebook.title}</p>
+                      </div>
+                        </li>
+                    ))}
                 </ul>
             </div>
 
