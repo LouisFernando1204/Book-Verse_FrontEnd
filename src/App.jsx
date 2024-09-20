@@ -1,35 +1,48 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route } from "react-router-dom";
+import Layout from "./components/fixed/Layout";
+import Home from "./views/Home";
+import BookList from "./views/BookList";
+import BookDetail from "./views/BookDetail";
+import Profile from "./views/Profile";
+import Missing from "./views/Missing";
+import BookForm from "./views/BookForm";
+import { useState } from "react";
+import { connectII, getCurrentIdentity } from "./services/connector";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [identity, setIdentity] = useState("");
+
+  const onLogin = async () => {
+    try {
+      await connectII();
+      setAccount();
+    }
+    catch (error) {
+      console.log(error);
+    }
+  };
+
+  const setAccount = () => {
+    const currentIdentity = getCurrentIdentity();
+    console.log(currentIdentity);
+    setIdentity(currentIdentity);
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Routes>
+      <Route
+        path="/"
+        element={<Layout onLogin={onLogin} identity={identity} />}
+      >
+        <Route index element={<Home identity={identity} />} />
+        <Route path="library" element={<BookList identity={identity} />} />
+        <Route path="ebook" element={<BookDetail />} />
+        <Route path="profile" element={<Profile identity={identity}/>} />
+        <Route path="publish" element={<BookForm />} />
+        <Route path="*" element={<Missing />} />
+      </Route>
+    </Routes>
+  );
 }
 
-export default App
+export default App;
