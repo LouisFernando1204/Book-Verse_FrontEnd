@@ -33,27 +33,17 @@ const BookList = ({ identity }) => {
     const fetchBook = async () => {
       try {
         setLoading(true);
-        const data = await getBooks();
-        setEbooksData(data);
+        const allBooks = await getBooks();
+        setEbooksData(allBooks);
+        const bookmarks = await getBookmarks(identity);
+        setFavoriteEBooks(bookmarks);
         setLoading(false);
       } catch (error) {
         console.log(error);
       }
     };
+    
     fetchBook();
-
-    const fetchBookmark = async () => {
-      try {
-        setLoading(true);
-        const data = await getBookmarks(identity);
-        setFavoriteEBooks(data);
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchBookmark();
   }, []);
 
   useEffect(() => {

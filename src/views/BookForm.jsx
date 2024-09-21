@@ -115,7 +115,7 @@ const BookForm = () => {
     setThumbnail(null);
     setFile(null);
     setLoading(false);
-    navigate("/");
+    navigate("/library");
   };
 
   return (

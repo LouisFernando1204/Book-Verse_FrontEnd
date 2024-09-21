@@ -212,6 +212,8 @@ const Home = ({ identity }) => {
     await donateToAuthor(identity, amount);
   };
 
+  console.log("filtered ebooks", filteredEBooks);
+
   return (
     <div className="h-full w-full flex flex-col space-y-8 items-center justify-center">
       {errorMessage ? (
